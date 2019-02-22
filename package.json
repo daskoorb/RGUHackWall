@@ -1,0 +1,21 @@
+{
+  "author": "Michael Müller <mich@elmueller.net>",
+  "homepage": "https://github.com/cmichi/twitterwall",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cmichi/twitterwall.git"
+  },
+  "name": "twitterwall",
+  "description": "Display topic-related tweets in realtime. Using node.js, socket.io & jQuery.",
+  "keywords": [
+    "twitterwall",
+    "twitter"
+  ],
+  "license": "MIT",
+  "version": "0.1.4",
+  "dependencies": {
+    "countdowntimer": "^2.0.1",
+    "express": "3.0.x",
+    "socket.io": "1.7.2"
+  }
+}
