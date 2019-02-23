@@ -55,7 +55,7 @@ io.sockets.on('connection', function (socket) {
 	socket.on('start', function(term){
 		socket.tweetsSendInThisSlot = 0;
 		//if (term == '' || term == undefined || term == null){
-			term = "#rguhack";
+			term = "#rguhack2019";
 			console.log(term);
 		//}
 
