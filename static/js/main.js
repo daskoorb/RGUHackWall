@@ -19,8 +19,9 @@ var standardTerm = "#rguhack2019";
 
 
 $(function() {
+	console.log("here");
   $("#future_date").countdowntimer({
-    dateAndTime: "2018/04/15 13:00:00",
+    dateAndTime: "2019/02/24 13:00:00",
     size: "xl",
     displayFormat: "HMS",
     borderColor: "#ffffff", // Set timer border Color.
