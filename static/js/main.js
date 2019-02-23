@@ -15,7 +15,7 @@ var displayed_tweets = [];
 var max_tweets = 6;
 var max_queue_size = 6;
 var queue = [];
-var standardTerm = "#rguhack";
+var standardTerm = "#rguhack2019";
 
 
 	  $(function(){
