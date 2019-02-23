@@ -2,7 +2,7 @@
 
 var socket = io();
 
-var whereToLoadPriorities = [1,1,1, 1,1,1];
+var whereToLoadPriorities = [1, 1, 1, 1, 1, 1];
 whereToLoadPriorities[parseInt(Math.random() * 6)] = 0; /* randomize initial position */
 
 /* let tweets stay for minimum x ms */
@@ -18,214 +18,236 @@ var queue = [];
 var standardTerm = "#rguhack2019";
 
 
-	  $(function(){
-	    $("#future_date").countdowntimer({
-	      dateAndTime : "2018/04/15 13:00:00",
-	      size : "xl",
-				displayFormat : "HMS",
-				borderColor              : "#ffffff" ,                       // Set timer border Color.
-				fontColor                : "#00aeff",                       // Set timer font Color.
-				backgroundColor          : "#ffffff"
-			});
-		});
+$(function() {
+  $("#future_date").countdowntimer({
+    dateAndTime: "2018/04/15 13:00:00",
+    size: "xl",
+    displayFormat: "HMS",
+    borderColor: "#ffffff", // Set timer border Color.
+    fontColor: "#00aeff", // Set timer font Color.
+    backgroundColor: "#ffffff"
+  });
+});
 
 
-socket.on('connect', function () {
-	term = getInitialTerm();
-	setTerm(term);
-	socket.emit('start', term);
+socket.on('connect', function() {
+  term = getInitialTerm();
+  setTerm(term);
+  socket.emit('start', term);
 
-	socket.on('new_tweet', function (tweet) {
-		//console.log(tweet);
+  socket.on('new_tweet', function(tweet) {
+    //console.log(tweet);
 
-		/* are there already enough tweets displayed? */
-		if (displayed_tweets.length === max_tweets) {
-			pushQueue(tweet);
-		} else if (isTweetDisplayed(tweet) === false) {
-			/* even if: we want a little delay */
-			pushQueue(tweet);
-		}
-	});
+    /* are there already enough tweets displayed? */
+    if (displayed_tweets.length === max_tweets) {
+      pushQueue(tweet);
+    } else if (isTweetDisplayed(tweet) === false) {
+      /* even if: we want a little delay */
+      pushQueue(tweet);
+    }
+  });
 });
 
 
 function adjustAll() {
-	$('.text').textfill({
-		maxFontPixels: 190
-		, innerTag: 'div'
-		, explicitWidth: $('.text').width() + 1
-	});
+  $('.text').textfill({
+    maxFontPixels: 190,
+    innerTag: 'div',
+    explicitWidth: $('.text').width() + 1
+  });
 }
 
 
 function adjustId(id) {
-	$('#tweet' + id + ' .text').textfill({
-		maxFontPixels: 190
-		, innerTag: 'div'
-		, explicitWidth: $('.text').width() + 1
-	});
+  $('#tweet' + id + ' .text').textfill({
+    maxFontPixels: 190,
+    innerTag: 'div',
+    explicitWidth: $('.text').width() + 1
+  });
 }
 
 
 /* load the next tweet into the visible area. */
 function newTweet(tweet) {
-	//console.log(tweet);
-	var currTs = (new Date()).getTime();
+  //console.log(tweet);
+  var currTs = (new Date()).getTime();
 
-	/* determine in which grid position to load the tweet */
-	var whereToLoad = 0;
+  /* determine in which grid position to load the tweet */
+  var whereToLoad = 0;
 
-	/* whereToLoad is where the timestamp is the lowest (meaning the
-	   tweet has been displayed for the longest time) */
-	for (var a = 0; a < max_tweets; a++) {
-		/* we have to ensure that the time a tweet lasts is > minLastTime */
-		if (whereToLoadPriorities[a] <= whereToLoadPriorities[whereToLoad])
-			whereToLoad = a;
-	}
+  /* whereToLoad is where the timestamp is the lowest (meaning the
+     tweet has been displayed for the longest time) */
+  for (var a = 0; a < max_tweets; a++) {
+    /* we have to ensure that the time a tweet lasts is > minLastTime */
+    if (whereToLoadPriorities[a] <= whereToLoadPriorities[whereToLoad])
+      whereToLoad = a;
+  }
 
-	$("#tweet" + whereToLoad).css('opacity', 0);
-	preload(tweet.pic);
-	setTweet(whereToLoad, tweet);
-	$("#tweet" + whereToLoad).animate({opacity: 1}, 1200)
-	adjustId(whereToLoad);
+  $("#tweet" + whereToLoad).css('opacity', 0);
+  preload(tweet.pic);
+  setTweet(whereToLoad, tweet);
+  $("#tweet" + whereToLoad).animate({
+    opacity: 1
+  }, 1200)
+  adjustId(whereToLoad);
 
-	displayed_tweets.push(tweet.id);
-	if (displayed_tweets.length > max_tweets)
-		displayed_tweets.splice(0,1);
+  displayed_tweets.push(tweet.id);
+  if (displayed_tweets.length > max_tweets)
+    displayed_tweets.splice(0, 1);
 
-	whereToLoadPriorities[whereToLoad] = (new Date()).getTime();
+  whereToLoadPriorities[whereToLoad] = (new Date()).getTime();
 
-	initiated = !initiated;
-	if (initiated)
-		$("#loading_box").hide();
+  initiated = !initiated;
+  if (initiated)
+    $("#loading_box").hide();
 }
 
 
 function pushQueue(tweet) {
-	/* if queue full, simply append the new element to the end
-	if (queue.length > max_queue_size)
-		queue.splice(max_queue_size, queue.length);
+  /* if queue full, simply append the new element to the end
+  if (queue.length > max_queue_size)
+  	queue.splice(max_queue_size, queue.length);
 
-	queue.push(tweet);
-	*/
+  queue.push(tweet);
+  */
 
-	/* if queue full, simply omit tweet */
-	if (queue.length > max_queue_size) {
-		//console.log("omitting tweet. queue full.");
-		return;
-	} else {
-		if (isTweetDisplayed(tweet)) return;
+  /* if queue full, simply omit tweet */
+  if (queue.length > max_queue_size) {
+    //console.log("omitting tweet. queue full.");
+    return;
+  } else {
+    if (isTweetDisplayed(tweet)) return;
 
-		//console.log("pushing tweet to queue (size: " + queue.length + ").");
-		queue.push(tweet);
-	}
+    //console.log("pushing tweet to queue (size: " + queue.length + ").");
+    queue.push(tweet);
+  }
 }
 
 
 function isTweetDisplayed(tweet) {
-	/* check if tweet is not already displayed */
-	for (var i in displayed_tweets) {
-		// console.log(displayed_tweets[i] + " == " + tweet.id);
-		if (displayed_tweets[i] == tweet.id)
-			return true;
-	}
+  /* check if tweet is not already displayed */
+  for (var i in displayed_tweets) {
+    // console.log(displayed_tweets[i] + " == " + tweet.id);
+    if (displayed_tweets[i] == tweet.id)
+      return true;
+  }
 
-	return false;
+  return false;
 }
 
 
 function workQueue() {
-	/* are there tweets which have already exhausted minLastTime? */
-	var now = (new Date()).getTime();
+  /* are there tweets which have already exhausted minLastTime? */
+  var now = (new Date()).getTime();
 
-	for (var a = 0; a < queue.length; a++) {
-		var display_time = now - whereToLoadPriorities[a];
+  for (var a = 0; a < queue.length; a++) {
+    var display_time = now - whereToLoadPriorities[a];
 
-		if (whereToLoadPriorities[a] === 1 || (display_time >= minLastTime && queue.length > 0)) {
-			if (isTweetDisplayed(queue[a]))
-				continue;
+    if (whereToLoadPriorities[a] === 1 || (display_time >= minLastTime && queue.length > 0)) {
+      if (isTweetDisplayed(queue[a]))
+        continue;
 
-			/* take tweet from queue */
-			newTweet(queue.splice(0,1)[0]);
+      /* take tweet from queue */
+      newTweet(queue.splice(0, 1)[0]);
 
-			/* take only one each time, otherwise there is too
-			much movement in the wall  */
-			return;
-		}
-	}
+      /* take only one each time, otherwise there is too
+      much movement in the wall  */
+      return;
+    }
+  }
 
 }
 setInterval("workQueue()", checkTime);
 
 
 var curr_preload = 0;
+
 function preload(pic) {
-	$("#preload" + (curr_preload++ % 5)).attr('src', pic);
+  $("#preload" + (curr_preload++ % 5)).attr('src', pic);
 }
 
 
 function setTerm(new_term) {
-	term = new_term;
-	$('#term h1').html(new_term);
-	$('input[name=term]').attr({value: new_term});
+  term = new_term;
+  $('#term h1').html(new_term);
+  $('input[name=term]').attr({
+    value: new_term
+  });
 }
 
 
 function setTweet(id, tweet) {
-	console.log(tweet);
-	name = (tweet.name.length < 17) ? tweet.name : tweet.name.substr(0, 15) + "..";
+  console.log(tweet);
+  name = (tweet.name.length < 17) ? tweet.name : tweet.name.substr(0, 15) + "..";
 
-	var text = tweet.text;
+  var text = tweet.text;
+  var img = tweet.img;
 
-	/* if there is an uri in the text, complement it with a 'href' */
-	var regex = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
-	var uri = text.match(regex)
+  /* if there is an uri in the text, complement it with a 'href' */
+  var regex = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+  var uri = text.match(regex)
 
-	if (uri != 1) {
-		for (var i in uri)
-			text = text.replace(uri[i],
-				"<a href='" + uri[i] + "'>" + uri[i] + "</a>");
-	}
+  if (uri != 1) {
+    for (var i in uri)
+      text = text.replace(uri[i],
+        "<a href='" + uri[i] + "'>" + uri[i] + "</a>");
+  }
 
-	/* make hashtags clickable */
-	var regex = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
-	var uri = text.match(regex)
+  /* make hashtags clickable */
+  var regex = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+  var uri = text.match(regex)
 
-	var content = '<div class="text">\
+  if (img != "") {
+    var content = '<div class="text">\
+		<div>' + text + '</div>\
+	</div>\
+	<img class ="image" src="'+img+'" />\
+	\
+	<div class="info">\
+		<img class="author" src="' + tweet.pic + '" alt="" align="left" />\
+		<span class="name"><a href="http://twitter.com/' +
+      tweet.name + '">@' + tweet.name + '</a></span>\
+	</div>';
+
+    $('#tweet' + id).html(content);
+  }
+else {
+  var content = '<div class="text">\
 		<div>' + text + '</div>\
 	</div>\
 	\
 	<div class="info">\
 		<img class="author" src="' + tweet.pic + '" alt="" align="left" />\
 		<span class="name"><a href="http://twitter.com/' +
-		tweet.name + '">@' + tweet.name + '</a></span>\
+    tweet.name + '">@' + tweet.name + '</a></span>\
 	</div>';
 
-	$('#tweet' + id).html(content);
+  $('#tweet' + id).html(content);
+}
 }
 
 
 /* get term param from uri */
 function getInitialTerm() {
-	var params = parseUri(window.location.href).queryKey;
-	if ("term" in params && params.term != undefined)
-		return decodeURIComponent(params.term).replace(/\+/g, " ");
-	else
-		return standardTerm;
+  var params = parseUri(window.location.href).queryKey;
+  if ("term" in params && params.term != undefined)
+    return decodeURIComponent(params.term).replace(/\+/g, " ");
+  else
+    return standardTerm;
 }
 
 
 function submit(frm) {
-	form.action = location.href + '/' + encodeURIComponent($('input[name=term]').value);
+  form.action = location.href + '/' + encodeURIComponent($('input[name=term]').value);
 }
 
 
 $(window).resize(function() {
-	adjustAll();
-	setTimeout("adjustAll()", 1000);
+  adjustAll();
+  setTimeout("adjustAll()", 1000);
 });
 
 
 $(document).ready(function() {
-	$('.fancybox').fancybox();
+  $('.fancybox').fancybox();
 });

@@ -68,6 +68,7 @@ h2 {
 .tweet .info {
 	height:40%; margin-top:25px;
 	float:left;
+
 }
 
 .tweet .text {
@@ -77,6 +78,20 @@ h2 {
 
 	height:49%;
 	background:#5e266f;
+	/* border:1px solid #91c8e1; */
+	font-size:12px;
+	padding:2%;
+	overflow: hidden;
+	font-weight: normal;
+}
+.tweet .image {
+	float:left;
+	clear:both;
+	margin:auto;
+	width:50%;
+
+	height:50%;
+
 	/* border:1px solid #91c8e1; */
 	font-size:12px;
 	padding:2%;

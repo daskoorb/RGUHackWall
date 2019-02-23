@@ -75,13 +75,18 @@ io.sockets.on('connection', function (socket) {
 					if (tweet == undefined || tweet.user == undefined ||
 					    tweet.user.screen_name == undefined)
 						return;
+var img=""
+						if(tweet.entities.media[0].media_url){
+							img = tweet.entities.media[0].media_url;
+						}
 
 					//console.log("@" + tweet.user.screen_name + ": " + tweet.text);
 					var next_tweet = {
 						id: tweet.id,
 						text: formatText(term, tweet.text),
 						pic: tweet.user.profile_image_url,
-						name: tweet.user.screen_name
+						name: tweet.user.screen_name,
+						img:img
 					};
 
 					if (streams[term].length === 0) {
@@ -160,13 +165,19 @@ function getInitialTweets(term, socket) {
 
 			var tweet = tweets.statuses[i];
 			//console.log(tweet.text)
-			//console.log(tweet)
+			var img ="";
+			if(tweet.entities.media[0].media_url){
+				img = tweet.entities.media[0].media_url;
+			}
+
+
 
 			var next_tweet = {
 				id: tweet.id,
 				text: formatText(term, tweet.text),
 				pic: tweet.user.profile_image_url,
-				name: tweet.user.screen_name
+				name: tweet.user.screen_name,
+				img:img
 			};
 
 			if (socket) {
