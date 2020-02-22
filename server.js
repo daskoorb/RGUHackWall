@@ -87,8 +87,6 @@ io.sockets.on('connection', function(socket) {
           }
 
           //console.log("@" + tweet.user.screen_name + ": " + tweet.text);
-          // media urls are in http, mixed sources
-          img = img.replace('http://', 'https://');
 
           var next_tweet = {
             id: tweet.id,
