@@ -82,7 +82,7 @@ io.sockets.on('connection', function(socket) {
           var img = ""
           if (tweet.entities.media) {
             if (tweet.entities.media[0].media_url) {
-              img = (tweet.entities.media[0].media_url).replace('http', 'https');
+              img = tweet.entities.media[0].media_url;
             }
           }
 
@@ -92,7 +92,7 @@ io.sockets.on('connection', function(socket) {
             text: formatText(term, tweet.text),
             pic: tweet.user.profile_image_url,
             name: tweet.user.screen_name,
-            img: img
+            img: img.replace('http://', 'https://');
           };
 
           if (streams[term].length === 0) {
