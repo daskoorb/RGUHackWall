@@ -92,7 +92,7 @@ io.sockets.on('connection', function(socket) {
             text: formatText(term, tweet.text),
             pic: tweet.user.profile_image_url,
             name: tweet.user.screen_name,
-            img: img
+            img: img.replace('http', 'https')
           };
 
           if (streams[term].length === 0) {
