@@ -172,19 +172,19 @@ function getInitialTweets(term, socket) {
 
       var tweet = tweets.statuses[i];
       //console.log(tweet.text)
-      var img = "";
-      if (tweet.entities.media) {
-        if (tweet.entities.media[0].media_url) {
-          img = tweet.entities.media[0].media_url;
-        }
-      }
+      //var img = "";
+      //if (tweet.entities.media) {
+      //  if (tweet.entities.media[0].media_url) {
+      //    img = tweet.entities.media[0].media_url;
+      //  }
+      //}
 
 
 
       var next_tweet = {
         id: tweet.id,
         text: formatText(term, tweet.text),
-        pic: tweet.user.profile_image_url,
+        //pic: tweet.user.profile_image_url,
         name: tweet.user.screen_name,
         img: img
       };
