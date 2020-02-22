@@ -183,7 +183,7 @@ function setTweet(id, tweet) {
 
   var text = tweet.text;
   var img = tweet.img;
-	tweet.pic = '/img/twitter.png'
+	tweet.pic = '/img/gull.png'
 
   /* if there is an uri in the text, complement it with a 'href' */
   var regex = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
