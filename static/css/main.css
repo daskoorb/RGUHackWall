@@ -15,7 +15,7 @@ body {
 }*/
 
 html {
-	background: linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3);
+	background-color: #f5f8fa;
 }
 
 h1 {
@@ -121,7 +121,7 @@ h2 {
 
 .tweet .author {
 	width:62px;
-	border:1px solid #91c8e1;
+	/*border:1px solid #91c8e1;*/
 }
 
 .tweet .name {
