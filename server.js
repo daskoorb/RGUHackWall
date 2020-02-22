@@ -81,9 +81,8 @@ io.sockets.on('connection', function(socket) {
             return;
           var img = ""
           if (tweet.entities.media) {
-            if (tweet.entities.media[0].media_url) {
-              img = tweet.entities.media[0].media_url;
-              console.log(img)
+            if (tweet.entities.media[0].media_url_https) {
+              img = tweet.entities.media[0].media_url_https;
             }
           }
 
