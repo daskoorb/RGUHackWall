@@ -198,7 +198,7 @@ function setTweet(id, tweet) {
   var regex = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
   var uri = text.match(regex)
 
-  if (img != "") {
+  if (img) {
     var content = '<div class="text">\
 		<div>' + text + '</div>\
 	</div>\
