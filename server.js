@@ -79,11 +79,11 @@ io.sockets.on('connection', function(socket) {
           if (tweet == undefined || tweet.user == undefined ||
             tweet.user.screen_name == undefined)
             return;
-          var img = ""
-          if (tweet.entities.media) {
-            if (tweet.entities.media[0].media_url_https) {
-              img = tweet.entities.media[0].media_url_https;
-            }
+          //var img = ""
+          //if (tweet.entities.media) {
+          //  if (tweet.entities.media[0].media_url_https) {
+          //    img = tweet.entities.media[0].media_url_https;
+          //  }
           }
 
           //console.log("@" + tweet.user.screen_name + ": " + tweet.text);
@@ -91,9 +91,9 @@ io.sockets.on('connection', function(socket) {
           var next_tweet = {
             id: tweet.id,
             text: formatText(term, tweet.text),
-            pic: tweet.user.profile_image_url,
+            //pic: tweet.user.profile_image_url,
             name: tweet.user.screen_name,
-            img: img
+            //img: img
           };
 
           if (streams[term].length === 0) {
