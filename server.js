@@ -84,7 +84,7 @@ io.sockets.on('connection', function(socket) {
           //  if (tweet.entities.media[0].media_url_https) {
           //    img = tweet.entities.media[0].media_url_https;
           //  }
-          }
+        //  }
 
           //console.log("@" + tweet.user.screen_name + ": " + tweet.text);
 
