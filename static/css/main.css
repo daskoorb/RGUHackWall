@@ -21,7 +21,7 @@ html {
 	-webkit-animation: rainbow 18s ease infinite;
 	-z-animation: rainbow 18s ease infinite;
 	-o-animation: rainbow 18s ease infinite;
-	  animation: rainbow 18s ease infinite;}
+	  animation: rainbow 18s ease infinite;
 
 	@-webkit-keyframes rainbow {
 	    0%{background-position:0% 82%}
@@ -42,6 +42,7 @@ html {
 	    0%{background-position:0% 82%}
 	    50%{background-position:100% 19%}
 	    100%{background-position:0% 82%}
+	}
 }
 
 h1 {
