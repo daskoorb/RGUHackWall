@@ -15,13 +15,13 @@ var displayed_tweets = [];
 var max_tweets = 6;
 var max_queue_size = 6;
 var queue = [];
-var standardTerm = "#rguhack2019";
+var standardTerm = "#rguhack2020";
 
 
 $(function() {
 	console.log("here");
   $("#future_date").countdowntimer({
-    dateAndTime: "2019/02/24 13:00:00",
+    dateAndTime: "2020/02/23 13:00:00",
     size: "xl",
     displayFormat: "HMS",
     borderColor: "#ffffff", // Set timer border Color.
