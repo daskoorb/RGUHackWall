@@ -25,8 +25,8 @@ $(function() {
     size: "xl",
     displayFormat: "HMS",
     borderColor: "#ffffff", // Set timer border Color.
-    //fontColor: "#00aeff", // Set timer font Color.
-    //backgroundColor: "#ffffff"
+    fontColor: "#00aeff", // Set timer font Color.
+    backgroundColor: "#ffffff"
   });
 });
 
